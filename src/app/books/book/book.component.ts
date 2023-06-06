@@ -13,7 +13,11 @@ export class BookComponent implements OnInit {
 
   constructor(private cartService: CartService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.book.image || !this.book.image.includes('http')) {
+      this.book.image = 'https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books_23-2149342941.jpg';
+    }
+  }
 
   addToCart() {
     this.isInCart = true;

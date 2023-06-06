@@ -14,8 +14,6 @@ export class RegisterComponent implements OnInit {
     confirm_password: '',
   };
 
-  passwordMatched: boolean = true;
-
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {}

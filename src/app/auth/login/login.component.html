@@ -1,5 +1,5 @@
 <div class="flex justify-center">
-    <form (ngSubmit)="submit()" #myForm="ngForm"
+    <form (ngSubmit)="submit(myForm)" #myForm="ngForm"
         class="p-4 mt-20 rounded-lg border m-auto w-1/3">
         <h1 class="text-center text-xl">Login</h1>
         <div class="my-5 w-full">
@@ -27,16 +27,50 @@
         </div>
 
         <div class="my-5 w-full">
-            <button type="submit" [disabled]="myForm.form.invalid"
+            <button type="submit" [disabled]="myForm.form.invalid || isLoading()"
                 class="p-2 w-full bg-purple-700 text-white hover:bg-purple-900 rounded">
                 <ng-container *ngIf="isLoading()">
-                    Loading...
+                  Loading...
                 </ng-container>
                 <ng-container *ngIf="!isLoading()">
+                  Submit
+                </ng-container>
+                <!-- <ng-container *ngIf="!isLoading() && !editModel">
                     Submit
                 </ng-container>
+                <ng-container *ngIf="!isLoading() && editModel">
+                    Save
+                </ng-container> -->
             </button>
 
         </div>
     </form>
+</div>
+<div *ngIf="this.isLoadUsers">
+  <!-- <div>{{ data | json }}</div> -->
+
+  <table [cellPadding]="8">
+    <tr>
+      <td>Id</td>
+      <td>Email</td>
+      <td>Password</td>
+      <td>Action</td>
+    </tr>
+    <tr *ngFor="let key of getKeys()">
+      <td>{{ key }}</td>
+      <td>{{ data[key]?.email }}</td>
+      <td>{{ data[key]?.password }}</td>
+      <td>
+        <button style="margin: 0 6px;" type="button" (click)="deleteById(key)">Delete</button>
+        |
+        <button style="margin: 0 6px;" type="button" (click)="setEditForm(key, data[key])">Edit</button>
+      </td>
+    </tr>
+    <tr *ngIf="isLoading()">
+      <td [colSpan]="4" [align]="'center'">Loading...</td>
+    </tr>
+    <tr *ngIf="!isLoading() && !this.data">
+      <td [colSpan]="4" [align]="'center'">Found not data</td>
+    </tr>
+  </table>
 </div>

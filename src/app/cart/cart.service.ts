@@ -20,4 +20,14 @@ export class CartService {
   remove(book: Book) {
     this.cart = this.cart.filter((b) => b != book);
   }
+
+  getTotalPrice() {
+    let total = 0;
+    
+    this.cart.forEach(item => {
+      total += Number(item?.price);
+    })
+
+    return total;
+  }
 }

@@ -27,7 +27,7 @@
 
         <div class="my-5 w-full">
             <label for="confirm_password">Confirm Password</label>
-            <input type="text" id="confirm_password"
+            <input type="password" id="confirm_password"
                 class="p-2 rounded w-full border text-sm"
                 placeholder="Confirm Password"
                 [(ngModel)]="form.confirm_password" name="confirm_password"
@@ -39,7 +39,7 @@
         </div>
 
         <div class="my-5 w-full">
-            <button type="submit" [disabled]="myForm.form.invalid"
+            <button type="submit" [disabled]="myForm.form.invalid || isLoading()"
                 class="p-2 w-full bg-purple-700 text-white hover:bg-purple-900 rounded">
                 <ng-container *ngIf="isLoading()">
                     Loading...

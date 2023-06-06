@@ -2,10 +2,11 @@
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-  apiKey: 'AIzaSyAgMi6Xseuh7j1LM2_PBe0yZN9QFlJSzi4',
-  authDomain: 'angular14-course.firebaseapp.com',
-  projectId: 'angular14-course',
-  storageBucket: 'angular14-course.appspot.com',
-  messagingSenderId: '681688155262',
-  appId: '1:681688155262:web:766f03329dfd0d87ab442f',
+  apiKey: "AIzaSyAlzUMTxoY6suw1XGKDwzkLzzk2rDDU6sk",
+  authDomain: "angular-example-a3dc0.firebaseapp.com",
+  projectId: "angular-example-a3dc0",
+  storageBucket: "angular-example-a3dc0.appspot.com",
+  messagingSenderId: "407789392272",
+  appId: "1:407789392272:web:661dfd6cd7f9d4ca6ce315",
+  measurementId: "G-SPFHX0V3WD"
 };
