@@ -8,8 +8,8 @@
       </a>
       <a class="mx-4" routerLink="/cart">
         My Cart 
-        <ng-container *ngIf="getCart()?.length != 0">
-          ({{ getCart()?.length }})
+        <ng-container *ngIf="getCount() != 0">
+          ({{ getCount() }})
         </ng-container>
       </a>
       <a class="mx-4" routerLink="/book/create"> Books</a>

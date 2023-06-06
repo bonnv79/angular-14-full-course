@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Book } from '../types/Book';
 import { CartService } from './cart.service';
 
 @Component({
@@ -17,5 +18,19 @@ export class CartComponent implements OnInit {
 
   getTotalPrice() {
     return this.cartService.getTotalPrice();
+  }
+
+  changeCount(event: any) {
+    if (event.target.value >= 0) {
+      console.log(event.target.value)
+    }
+  }
+
+  add(book: Book) {
+    this.cartService.add(book);
+  }
+
+  remove(book: Book) {
+    this.cartService.remove(book);
   }
 }

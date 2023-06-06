@@ -75,7 +75,7 @@
 <div class="book-table-container">
   <h1>Book list</h1>
   <!-- <div>{{ data | json }}</div> -->
-  <table [cellPadding]="8">
+  <table [cellPadding]="8" [ngClass]="{'disabled-table': isLoading() }">
     <tr>
       <td>Id</td>
       <td>Name</td>

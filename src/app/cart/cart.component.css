@@ -12,3 +12,19 @@ table {
 tr {
   border-top: 1px solid #bbbbbb;
 }
+
+input {
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  width: 60px;
+}
+
+button {
+  border: 1px solid #bbbbbb;
+  width: 28px;
+  border-radius: 30%;
+}
+
+.price-text {
+  padding: 0 5px;
+}

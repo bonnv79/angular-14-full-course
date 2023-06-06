@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     return this.authService.user;
   }
 
-  getCart() {
-    return this.cartService.cart;
+  getCount() {
+    return this.cartService.getTotalPrice().count;
   }
 }

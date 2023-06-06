@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { getDatabase, ref, set, onValue, child, get, push, update, remove } from "firebase/database";
 import { AuthService } from '../auth/auth.service';
+import { CartService } from '../cart/cart.service';
 import { Book } from '../types/Book';
 import { NotifyType } from '../types/Notify';
 
@@ -15,7 +16,12 @@ export class BooksService {
   isLoading: boolean = false;
   private readonly notifier: NotifierService;
 
-  constructor(private router: Router, notifierService: NotifierService, private authService: AuthService) {
+  constructor(
+    private router: Router, 
+    notifierService: NotifierService, 
+    private authService: AuthService,
+    private cartService: CartService
+  ) {
     this.notifier = notifierService;
   }
 
@@ -105,6 +111,7 @@ export class BooksService {
     
     remove(child(dbRef, `${TABLE_NAME}/${id}`)).then((res) => {
       this.notifier.notify(NotifyType.SUCCESS, 'Delete successfully');
+      this.cartService.delete(id);
     }).catch((error) => {
       this.notifier.notify(NotifyType.ERROR, error.message);
     }).finally(() => (this.isLoading = false));

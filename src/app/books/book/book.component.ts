@@ -9,7 +9,7 @@ import { Book } from '../../types/Book';
 })
 export class BookComponent implements OnInit {
   @Input() book: Book = {} as Book;
-  isInCart: boolean = false;
+  // isInCart: boolean = false;
 
   constructor(private cartService: CartService) {}
 
@@ -20,12 +20,16 @@ export class BookComponent implements OnInit {
   }
 
   addToCart() {
-    this.isInCart = true;
+    // this.isInCart = true;
     this.cartService.add(this.book);
   }
 
   removeFromCart() {
-    this.isInCart = false;
+    // this.isInCart = false;
     this.cartService.remove(this.book);
+  }
+
+  isInCart() {
+    return this.cartService.checkInCart(this.book.id);
   }
 }

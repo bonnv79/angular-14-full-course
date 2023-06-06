@@ -50,7 +50,13 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [AppComponent, CartComponent],
-  imports: [BrowserModule, BooksModule, AppRoutingModule, AuthModule, NotifierModule.withConfig(customNotifierOptions)],
+  imports: [
+    BrowserModule,
+    BooksModule, 
+    AppRoutingModule,
+    AuthModule,
+    NotifierModule.withConfig(customNotifierOptions),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

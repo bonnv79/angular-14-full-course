@@ -11,6 +11,11 @@ td {
   max-width: 150px;
 }
 
+.disabled-table {
+  opacity: 0.6;
+  user-select: none;
+}
+
 .button-container {
   display: grid;
   grid-auto-flow: column;
