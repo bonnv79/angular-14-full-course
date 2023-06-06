@@ -9,7 +9,6 @@ import { BooksService } from '../books.service';
   styleUrls: ['./create-book.component.css'],
 })
 export class CreateBookComponent implements OnInit {
-  data: any = {};
   form: Book = {
     id: '',
     name: '',
@@ -19,28 +18,21 @@ export class CreateBookComponent implements OnInit {
   };
   editModel: boolean = false;
 
-  constructor(private bookService: BooksService) {}
+  constructor(private booksService: BooksService) { }
 
-  ngOnInit(): void {
-    this.bookService.getBooks((res: any) => {
-      if (res) {
-        this.data = res;
-      }
-    })
-  }
+  ngOnInit(): void { }
 
-  getKeys() {
-    return Object.keys(this.data || {});
+  getBooks() {
+    return this.booksService.getStateBooks();
   }
 
   submit(myForm: NgForm) {
-    console.log(this.form);
     if (this.editModel) {
-      this.bookService.updateBook(this.form, () => {
+      this.booksService.updateBook(this.form, () => {
         this.reset(myForm);
       });
     } else {
-      this.bookService.createBook(this.form, () => {
+      this.booksService.createBook(this.form, () => {
         this.reset(myForm);
       });
     }
@@ -51,16 +43,20 @@ export class CreateBookComponent implements OnInit {
     this.editModel = false;
   }
 
-  deleteById(key: string) {
-    this.bookService.deleteById(key);
+  deleteById(key: string, book: Book) {
+    if(confirm(`Are you sure to delete ${book?.name}?`)) {
+      this.booksService.deleteById(key);
+    }
   }
 
-  setEditForm(id: string, book: Book) {
-    this.form = {...book, id};
-    this.editModel = true;
+  setEditForm(id: string) {
+    this.booksService.getById(id, (res: Book) => {
+      this.form = { ...res, id };
+      this.editModel = true;
+    });
   }
 
   isLoading() {
-    return this.bookService.isLoading;
+    return this.booksService.isLoading;
   }
 }

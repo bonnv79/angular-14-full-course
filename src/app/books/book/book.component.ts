@@ -11,7 +11,7 @@ export class BookComponent implements OnInit {
   @Input() book: Book = {} as Book;
   // isInCart: boolean = false;
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
     if (!this.book.image || !this.book.image.includes('http')) {

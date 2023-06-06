@@ -10,4 +10,4 @@ import { CreateBookComponent } from './create-book/create-book.component';
   imports: [CommonModule, FormsModule],
   exports: [BooksComponent],
 })
-export class BooksModule {}
+export class BooksModule { }

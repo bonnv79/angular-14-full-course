@@ -8,18 +8,12 @@ import { BooksService } from './books.service';
   styleUrls: ['./books.component.css'],
 })
 export class BooksComponent implements OnInit {
-  books: any = [];
-  constructor(private booksService: BooksService) {}
+  constructor(private booksService: BooksService) { }
 
-  isShowing: boolean = true;
+  ngOnInit(): void { }
 
-  ngOnInit(): void {
-    this.booksService.getBooks((res: any) => {
-      if (res) {
-        const mapped = Object.keys(res).map(key => ({ ...res[key], id: key})); 
-        this.books = mapped;
-      }
-    });
+  getBooks() {
+    return this.booksService.getStateBooks();
   }
 
   isLoading() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { AuthService } from './auth/auth.service';
+import { BooksService } from './books/books.service';
 import { CartService } from './cart/cart.service';
 import { firebaseConfig } from './firebase.config';
 @Component({
@@ -9,14 +10,17 @@ import { firebaseConfig } from './firebase.config';
   styleUrls: ['app.component.css'],
 })
 export class AppComponent implements OnInit {
-  constructor(private authService: AuthService, private cartService: CartService) {}
+  constructor(private authService: AuthService, private cartService: CartService, private booksService: BooksService) {
+    this.authService.clearCache();
+  }
 
   ngOnInit(): void {
     initializeApp(firebaseConfig);
+    this.booksService.getBooks();
   }
 
   getUserName() {
-    let userName = this.getUserInfo()?.user?.email;
+    let userName = this.getUserInfo()?.email;
     if (userName) {
       const arr = userName.split('@');
       userName = arr?.[0];
@@ -24,8 +28,8 @@ export class AppComponent implements OnInit {
     return userName;
   }
 
-  isAuthenticated() {
-    return this.authService.isAuthenticated;
+  isAuth() {
+    return this.authService.checkAuth();
   }
 
   logout() {
@@ -33,10 +37,10 @@ export class AppComponent implements OnInit {
   }
 
   getUserInfo() {
-    return this.authService.user;
+    return this.authService.getUserInfo();
   }
 
   getCount() {
-    return this.cartService.getTotalPrice().count;
+    return this.cartService.getTotalCount();
   }
 }

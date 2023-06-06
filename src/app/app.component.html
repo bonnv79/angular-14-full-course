@@ -1,25 +1,25 @@
 <nav class="flex justify-between p-4 bg-purple-900 text-white">
   <div>
-      <a routerLink="/">Book Shop</a>
+    <a routerLink="/">Book Shop</a>
   </div>
   <div>
-      <a class="mx-4" *ngIf="this.getUserInfo()?.user?.email">
-        Hi {{getUserName()}}!
-      </a>
-      <a class="mx-4" routerLink="/cart">
-        My Cart 
-        <ng-container *ngIf="getCount() != 0">
-          ({{ getCount() }})
-        </ng-container>
-      </a>
-      <a class="mx-4" routerLink="/book/create"> Books</a>
-      <ng-container *ngIf="!isAuthenticated()">
-          <a class="mx-4" routerLink="/login"> Login</a>
-          <a class="mx-4" routerLink="/register"> Register</a>
+    <a class="mx-4" *ngIf="this.getUserInfo()?.email">
+      Hi {{getUserName()}}!
+    </a>
+    <a class="mx-4" routerLink="/cart" routerLinkActive="active-link">
+      My Cart
+      <ng-container *ngIf="getCount() != 0">
+        ({{ getCount() }})
       </ng-container>
-      <ng-container *ngIf="isAuthenticated()">
-          <button (click)="logout()" class="mx-4">Logout</button>
-      </ng-container>
+    </a>
+    <a class="mx-4" routerLink="/book/create" routerLinkActive="active-link">Books</a>
+    <ng-container *ngIf="!isAuth()">
+      <a class="mx-4" routerLink="/login" routerLinkActive="active-link">Login</a>
+      <a class="mx-4" routerLink="/register" routerLinkActive="active-link">Register</a>
+    </ng-container>
+    <ng-container *ngIf="isAuth()">
+      <button (click)="logout()" class="mx-4">Logout</button>
+    </ng-container>
   </div>
 </nav>
 <div class="p-4">

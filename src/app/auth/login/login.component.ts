@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   editModel: boolean = false;
   isLoadUsers: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     if (this.isLoadUsers) {
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.authService.login(this.form);
     }
-    
+
     myForm.reset();
   }
 
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
   }
 
   setEditForm(id: string, val: any) {
-    this.form = {...val, id};
+    this.form = { ...val, id };
     this.editModel = true;
   }
 }

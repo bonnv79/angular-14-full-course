@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BooksService } from '../books/books.service';
 import { LOCAL_STORAGE_KEY_NAMES } from '../constants';
 import { Book } from '../types/Book';
 
@@ -8,7 +9,7 @@ import { Book } from '../types/Book';
 export class CartService {
   private cart: any = {};
 
-  constructor() {
+  constructor(private booksService: BooksService) {
     this.cart = this.getCache();
   }
 
@@ -19,30 +20,36 @@ export class CartService {
 
   setCache() {
     localStorage.setItem(LOCAL_STORAGE_KEY_NAMES.CART, JSON.stringify(this.cart));
+    // localStorage.removeItem(key);
+    // localStorage.clear();
   }
 
-  get(isObject?: boolean) {
-    // const books = this.booksService.getStateBooks();
-    // const keys = Object.keys(this.cart);
-    // console.log('get cart');
-    // return keys.map(key => ({
-    //   ...this.cart[key],
-    //   ...books[key],
-    //   id: key
-    // }));
-    if (isObject) {
-      return this.cart;
-    }
-    const data: any[] = Object.values(this.cart);
-    return data;
-  }
+  // update(id: string, newValue: any) { // not use
+  //   this.cart[id] = {
+  //     ...this.cart[id],
+  //     ...newValue
+  //   };
+  //   this.setCache();
+  // }
 
   add(book: Book) {
     this.cart[book.id] = {
-      id: book.id,
+      ...book,
       count: (this.cart[book.id]?.count || 0) + 1
     };
     this.setCache();
+  }
+
+  get() {
+    const books = this.booksService.getStateBooks();
+    const keys = Object.keys(this.cart);
+    return keys.map(key => ({
+      ...this.cart[key],
+      ...books[key],
+      id: key
+    }));
+    // const data: any = Object.values(this.cart);
+    // return data;
   }
 
   remove(book: Book) {
@@ -50,7 +57,7 @@ export class CartService {
       delete this.cart[book.id];
     } else {
       this.cart[book.id] = {
-        ...this.cart[book.id],
+        ...book,
         count: (this.cart[book.id]?.count || 0) - 1
       }
     }
@@ -63,26 +70,21 @@ export class CartService {
     this.setCache();
   }
 
-  getTotalPrice(books: any) {
+  getTotalPrice() {
+    let count = 0;
     let total = 0;
 
     this.get().forEach((item: any) => {
       const countItem = Number(item?.count);
-      const priceItem = Number(books[item?.id]?.price);
+      const priceItem = Number(item?.price);
+      count += countItem;
       total += priceItem * countItem;
     });
 
-    return total;
-  }
-
-  getTotalCount() {
-    let count = 0;
-
-    this.get().forEach((item: any) => {
-      count += Number(item?.count);
-    });
-
-    return count;
+    return {
+      count,
+      total
+    };
   }
 
   checkInCart(id: string) {

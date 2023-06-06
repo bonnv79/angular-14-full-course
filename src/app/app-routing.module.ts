@@ -9,16 +9,14 @@ import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: BooksComponent },
-  { path: 'cart', component: CartComponent }, // todo
-  // { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'book/create', component: CreateBookComponent }, // todo
-  // { path: 'book/create', component: CreateBookComponent, canActivate: [AuthGuard] },
+  { path: 'book/create', component: CreateBookComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

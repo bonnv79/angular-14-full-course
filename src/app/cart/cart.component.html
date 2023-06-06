@@ -4,35 +4,41 @@
         <p class="my-4 text-2xl">{{i+1}}. {{ book.name }}</p>
     </div>
 </div> -->
+<div *ngIf="isLoading()">Loading...</div>
 
-<div class="cart-root">
+<div class="cart-root" *ngIf="!isLoading()">
   <table [cellPadding]="8" *ngIf="getCart().length > 0">
     <thead>
       <th>STT</th>
       <th [align]="'left'">Book name</th>
-      <th [align]="'right'">Count</th>
       <th [align]="'right'">Price</th>
+      <th [align]="'right'">Count</th>
+      <th [align]="'right'">Amount</th>
     </thead>
     <tr *ngFor="let book of getCart(); let i=index;">
       <td [align]="'center'">{{i+1}}</td>
-      <td>{{ book.name | titlecase }}</td>
+      <td>{{ getBookById(book?.id)?.name | titlecase }}</td>
+      <td [align]="'right'">{{ getBookById(book?.id)?.price | currency }}</td>
       <td [align]="'right'">
-        <button type="button" (click)="remove(book)">-</button>
+        <button type="button" class="count-btn" (click)="remove(book)">-</button>
 
         <span class="price-text">{{book.count}}</span>
 
-        <button type="button" (click)="add(book)">+</button>
+        <button type="button" class="count-btn" (click)="add(book)">+</button>
       </td>
-      <td [align]="'right'">{{ book.price | currency }}</td>
+      <td [align]="'right'">{{ book.count * getBookById(book?.id)?.price | currency }}</td>
     </tr>
     <tr [align]="'right'">
-      <td [colSpan]="3">
-        Total: <b>{{ getTotalPrice().count }}</b>
+      <td [colSpan]="4">
+        Total: <b>{{ getTotalCount() }}</b>
       </td>
       <td [colSpan]="1">
-        Total Price: <b>{{ getTotalPrice().total | currency }}</b>
+        Total Price: <b>{{ getTotalPrice() | currency }}</b>
       </td>
     </tr>
   </table>
   <div *ngIf="getCart().length == 0">No books in your cart</div>
+  <!-- <div class="action-container" *ngIf="getCart().length > 0">
+    <button type="button" class="pay-btn">Pay</button>
+  </div> -->
 </div>

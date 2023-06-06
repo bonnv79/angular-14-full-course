@@ -1,80 +1,67 @@
 <div class="flex justify-center">
-  <form (ngSubmit)="submit(myForm)" #myForm="ngForm"
-      class="p-4 mt-20 rounded-lg border m-auto w-2/3">
-      <h1 class="text-center text-xl">Create Book</h1>
+  <form (ngSubmit)="submit(myForm)" #myForm="ngForm" class="p-4 mt-8 rounded-lg border m-auto w-2/3">
+    <h1 class="text-center text-xl">Create Book</h1>
 
-      <div class="my-5 w-full">
-          <label for="name">Name</label>
-          <input type="text" id="name"
-              class="p-2 rounded w-full border text-sm"
-              placeholder="Input..." [(ngModel)]="form.name"
-              name="name" #name="ngModel" required>
-      </div>
-      <div *ngIf="name.invalid && (name.dirty || name.touched)"
-          class="p-2 bg-red-300 text-red-800 rounded">
-          Name field must be valid
-      </div>
+    <div class="my-5 w-full">
+      <label for="name">Name</label>
+      <input type="text" id="name" class="p-2 rounded w-full border text-sm" placeholder="Input..."
+        [(ngModel)]="form.name" name="name" #name="ngModel" required>
+    </div>
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="p-2 bg-red-300 text-red-800 rounded">
+      Name field must be valid
+    </div>
 
-      <div class="my-5 w-full">
-        <label for="author">Author</label>
-        <input type="text" id="author"
-            class="p-2 rounded w-full border text-sm"
-            placeholder="Input..." [(ngModel)]="form.author"
-            name="author" #author="ngModel" required>
-      </div>
-      <div *ngIf="author.invalid && (author.dirty || author.touched)"
-          class="p-2 bg-red-300 text-red-800 rounded">
-          Author field must be valid
-      </div>
+    <div class="my-5 w-full">
+      <label for="author">Author</label>
+      <input type="text" id="author" class="p-2 rounded w-full border text-sm" placeholder="Input..."
+        [(ngModel)]="form.author" name="author" #author="ngModel" required>
+    </div>
+    <div *ngIf="author.invalid && (author.dirty || author.touched)" class="p-2 bg-red-300 text-red-800 rounded">
+      Author field must be valid
+    </div>
 
-      <div class="my-5 w-full">
-        <label for="image">Image</label>
-        <input type="text" id="image"
-            class="p-2 rounded w-full border text-sm"
-            placeholder="Input..." [(ngModel)]="form.image"
-            name="image" #image="ngModel" required>
-      </div>
-      <div *ngIf="image.invalid && (image.dirty || image.touched)"
-          class="p-2 bg-red-300 text-red-800 rounded">
-          Image field must be valid
-      </div>
+    <div class="my-5 w-full">
+      <label for="image">Image</label>
+      <input type="text" id="image" class="p-2 rounded w-full border text-sm" placeholder="Input..."
+        [(ngModel)]="form.image" name="image" #image="ngModel" required>
+    </div>
+    <div *ngIf="image.invalid && (image.dirty || image.touched)" class="p-2 bg-red-300 text-red-800 rounded">
+      Image field must be valid
+    </div>
 
-      <div class="my-5 w-full">
-        <label for="price">Price</label>
-        <input type="text" id="price"
-            class="p-2 rounded w-full border text-sm"
-            placeholder="Input..." [(ngModel)]="form.price"
-            name="price" #price="ngModel" required>
-      </div>
-      <div *ngIf="price.invalid && (price.dirty || price.touched)"
-          class="p-2 bg-red-300 text-red-800 rounded">
-          Price field must be valid
-      </div>
+    <div class="my-5 w-full">
+      <label for="price">Price</label>
+      <input type="text" id="price" class="p-2 rounded w-full border text-sm" placeholder="Input..."
+        [(ngModel)]="form.price" name="price" #price="ngModel" required>
+    </div>
+    <div *ngIf="price.invalid && (price.dirty || price.touched)" class="p-2 bg-red-300 text-red-800 rounded">
+      Price field must be valid
+    </div>
 
-      <div class="my-5 w-full button-container">
-          <button type="submit" [disabled]="myForm.form.invalid"
-              class="p-2 w-full bg-purple-700 text-white hover:bg-purple-900 rounded">
-              <ng-container *ngIf="isLoading()">
-                  Loading...
-              </ng-container>
-              <ng-container *ngIf="!isLoading() && !editModel">
-                  Create
-              </ng-container>
-              <ng-container *ngIf="!isLoading() && editModel">
-                  Save
-              </ng-container>
-          </button>
-          <button type="button" (click)="reset(myForm)"
-              class="p-2 w-full bg-purple-700 text-white hover:bg-purple-900 rounded">
-              Reset
-          </button>
-      </div>
+    <div class="my-5 w-full button-container">
+      <button type="submit" [disabled]="myForm.form.invalid"
+        class="p-2 w-full bg-purple-700 text-white hover:bg-purple-900 rounded">
+        <ng-container *ngIf="isLoading()">
+          Loading...
+        </ng-container>
+        <ng-container *ngIf="!isLoading() && !editModel">
+          Create
+        </ng-container>
+        <ng-container *ngIf="!isLoading() && editModel">
+          Save
+        </ng-container>
+      </button>
+      <button type="button" (click)="reset(myForm)"
+        class="p-2 w-full bg-purple-700 text-white hover:bg-purple-900 rounded">
+        Reset
+      </button>
+    </div>
   </form>
 </div>
 
 <div class="book-table-container">
   <h1>Book list</h1>
-  <!-- <div>{{ data | json }}</div> -->
+  <!-- <div>{{ getBooks() | json }}</div> -->
   <table [cellPadding]="8" [ngClass]="{'disabled-table': isLoading() }">
     <tr>
       <td>Id</td>
@@ -84,22 +71,22 @@
       <td>Price</td>
       <td>Action</td>
     </tr>
-    <tr *ngFor="let key of getKeys()">
-      <td>{{ key }}</td>
-      <td>{{ data[key]?.name | titlecase }}</td>
-      <td>{{ data[key]?.author | titlecase }}</td>
-      <td>{{ data[key]?.image }}</td>
-      <td>{{ data[key]?.price }}</td>
+    <tr *ngFor="let item of getBooks()">
+      <td>{{ item?.id }}</td>
+      <td>{{ item?.name | titlecase }}</td>
+      <td>{{ item?.author | titlecase }}</td>
+      <td>{{ item?.image }}</td>
+      <td>{{ item?.price }}</td>
       <td>
-        <button style="margin: 0 6px;" type="button" (click)="deleteById(key)">Delete</button>
+        <button style="margin: 0 6px;" type="button" (click)="deleteById(item?.id, item)">Delete</button>
         |
-        <button style="margin: 0 6px;" type="button" (click)="setEditForm(key, data[key])">Edit</button>
+        <button style="margin: 0 6px;" type="button" (click)="setEditForm(item?.id)">Edit</button>
       </td>
     </tr>
     <tr *ngIf="isLoading()">
       <td [colSpan]="6" [align]="'center'">Loading...</td>
     </tr>
-    <tr *ngIf="!isLoading() && !this.data">
+    <tr *ngIf="!isLoading() && getBooks()?.length === 0">
       <td [colSpan]="6" [align]="'center'">Found not data</td>
     </tr>
   </table>

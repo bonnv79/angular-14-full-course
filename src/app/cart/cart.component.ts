@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BooksService } from '../books/books.service';
 import { Book } from '../types/Book';
 import { CartService } from './cart.service';
 
@@ -8,22 +9,21 @@ import { CartService } from './cart.service';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private booksService: BooksService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getCart() {
     return this.cartService.get();
   }
 
   getTotalPrice() {
-    return this.cartService.getTotalPrice();
+    const books = this.booksService.getStateBooks(true);
+    return this.cartService.getTotalPrice(books);
   }
 
-  changeCount(event: any) {
-    if (event.target.value >= 0) {
-      console.log(event.target.value)
-    }
+  getTotalCount() {
+    return this.cartService.getTotalCount();
   }
 
   add(book: Book) {
@@ -32,5 +32,13 @@ export class CartComponent implements OnInit {
 
   remove(book: Book) {
     this.cartService.remove(book);
+  }
+
+  getBookById(id: string) {
+    return this.booksService.getStateBookById(id);
+  }
+
+  isLoading() {
+    return this.booksService.isLoading;
   }
 }

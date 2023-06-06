@@ -9,16 +9,16 @@ import { CartComponent } from './cart/cart.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
-		horizontal: {
-			position: 'right',
-			distance: 12
-		},
-		vertical: {
-			position: 'top',
-			distance: 12,
-			gap: 10
-		}
-	},
+    horizontal: {
+      position: 'left',
+      distance: 12
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10
+    }
+  },
   theme: 'material',
   behaviour: {
     autoHide: 5000,
@@ -52,11 +52,11 @@ const customNotifierOptions: NotifierOptions = {
   declarations: [AppComponent, CartComponent],
   imports: [
     BrowserModule,
-    BooksModule, 
+    BooksModule,
     AppRoutingModule,
     AuthModule,
     NotifierModule.withConfig(customNotifierOptions),
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
