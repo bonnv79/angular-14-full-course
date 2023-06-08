@@ -37,6 +37,10 @@ export class CartService {
     return data;
   }
 
+  set(value: any) {
+    this.cart = value;
+  }
+
   add(book: Book) {
     this.cart[book.id] = {
       id: book.id,

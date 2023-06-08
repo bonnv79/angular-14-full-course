@@ -12,18 +12,19 @@ import { NotifyType } from '../types/Notify';
 import { getDatabase, ref, set, onValue, child, get, push, update, remove } from "firebase/database";
 import { isEmpty } from '@firebase/util';
 import { LOCAL_STORAGE_KEY_NAMES } from '../constants';
+import { CartService } from '../cart/cart.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly notifier: NotifierService;
   // isAuthenticated: boolean = false;
   isLoading: boolean = false;
   private userInfo: any = {};
-  private readonly notifier: NotifierService;
   private tokenInfo: any = {};
 
-  constructor(private router: Router, notifierService: NotifierService) {
+  constructor(private router: Router, notifierService: NotifierService, private cartService: CartService) {
     this.notifier = notifierService;
 
     const idToken = this.getCookie('idToken');
@@ -39,6 +40,12 @@ export class AuthService {
         this.userInfo = userInfo;
       }
     }
+  }
+
+  handleError(error: any) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    this.notifier.notify(NotifyType.ERROR, errorMessage);
   }
 
   getUserInfo() {
@@ -71,9 +78,7 @@ export class AuthService {
       } else {
         // console.log("No data available");
       }
-    }).catch((error) => {
-      console.error(error);
-    });
+    }).catch(error => this.handleError(error));
   }
 
   updateUser(form: any) {
@@ -99,9 +104,7 @@ export class AuthService {
 
     return update(ref(db), updates).then((res) => {
       this.notifier.notify(NotifyType.SUCCESS, 'Update successfully');
-    }).catch((error) => {
-      this.notifier.notify(NotifyType.ERROR, error.message);
-    }).finally(() => {
+    }).catch(error => this.handleError(error)).finally(() => {
       this.isLoading = false;
     });
   }
@@ -111,9 +114,7 @@ export class AuthService {
     const dbRef = ref(getDatabase());
     remove(child(dbRef, `users/${id}`)).then((res) => {
       this.notifier.notify(NotifyType.SUCCESS, 'Delete successfully');
-    }).catch((error) => {
-      this.notifier.notify(NotifyType.ERROR, error.message);
-    }).finally(() => (this.isLoading = false));
+    }).catch(error => this.handleError(error)).finally(() => (this.isLoading = false));
   }
 
   createUser(form: LoginForm) {
@@ -131,9 +132,7 @@ export class AuthService {
         // console.log(res);
         this.notifier.notify(NotifyType.SUCCESS, 'Created successfully');
       })
-      .catch((error) => {
-        this.notifier.notify(NotifyType.ERROR, error.message);
-      }).finally(() => (this.isLoading = false));
+      .catch(error => this.handleError(error)).finally(() => (this.isLoading = false));
   }
 
   handleLoginSuccess(userCredential: any) {
@@ -160,13 +159,7 @@ export class AuthService {
         this.router.navigate(['']);
         // this.notifier.notify(NotifyType.SUCCESS, 'Login successfully');
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // this.isAuthenticated = false;
-
-        this.notifier.notify(NotifyType.ERROR, errorMessage);
-      })
+      .catch(error => this.handleError(error))
       .finally(() => (this.isLoading = false));
   }
 
@@ -193,12 +186,7 @@ export class AuthService {
         this.router.navigate(['']);
         // this.notifier.notify(NotifyType.SUCCESS, 'Register successfully');
       })
-      .catch((error) => {
-        // this.isAuthenticated = false;
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        this.notifier.notify(NotifyType.ERROR, errorMessage);
-      })
+      .catch(error => this.handleError(error))
       .finally(() => (this.isLoading = false));
   }
 
@@ -211,14 +199,15 @@ export class AuthService {
         this.deleteAllCookies();
         this.clearLocalStorage();
 
-        // this.router.navigate(['login']);
-        location.replace("/login");
+        // location.replace("/login");
+        this.router.navigate(['login']);
+        this.userInfo = {};
+        this.tokenInfo = {};
+        this.cartService.set({});
 
         // this.notifier.notify(NotifyType.SUCCESS, 'Logout successfully');
       })
-      .catch((error) => {
-        // An error happened.
-      });
+      .catch(error => this.handleError(error));
   }
 
   clearCache() {
@@ -269,10 +258,11 @@ export class AuthService {
   // }
 
   deleteAllCookies() {
-    let c = document.cookie.split(';');
-    for (const k of c) {
-      let s = k.split('=');
-      document.cookie = s[0].trim() + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    let cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      let arrayCookie = cookie.split('=');
+      const cname = arrayCookie?.[0]?.trim();
+      this.setCookie(cname, '', 0);
     }
   }
 
