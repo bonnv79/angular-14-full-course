@@ -1,41 +1,46 @@
-<h1>Your Cart</h1>
+<span class="fs-3">Your Cart</span>
 <!-- <div *ngIf="getCart().length > 0">
     <div *ngFor="let book of getCart(); let i=index;">
         <p class="my-4 text-2xl">{{i+1}}. {{ book.name }}</p>
     </div>
 </div> -->
-<div *ngIf="isLoading()">Loading...</div>
 
-<div class="cart-root" *ngIf="!isLoading()">
-  <table [cellPadding]="8" *ngIf="getCart().length > 0">
+<div class="cart-root">
+  <table class="table" [cellPadding]="8" *ngIf="getCart().length > 0">
     <thead>
-      <th>STT</th>
-      <th [align]="'left'">Book name</th>
-      <th [align]="'right'">Price</th>
-      <th [align]="'right'">Count</th>
-      <th [align]="'right'">Amount</th>
+      <tr>
+        <td>STT</td>
+        <td [align]="'left'">Book name</td>
+        <td [align]="'right'">Price</td>
+        <td [align]="'right'">Count</td>
+        <td [align]="'right'">Amount</td>
+      </tr>
     </thead>
-    <tr *ngFor="let book of getCart(); let i=index;">
-      <td [align]="'center'">{{i+1}}</td>
-      <td>{{ getBookById(book?.id)?.name | titlecase }}</td>
-      <td [align]="'right'">{{ getBookById(book?.id)?.price | currency }}</td>
-      <td [align]="'right'">
-        <button type="button" class="count-btn" (click)="remove(book)">-</button>
+    <tbody>
+      <tr *ngFor="let book of getCart(); let i=index;">
+        <td [align]="'center'">{{i+1}}</td>
+        <td>{{ getBookById(book?.id)?.name | titlecase }}</td>
+        <td [align]="'right'">{{ getBookById(book?.id)?.price | currency }}</td>
+        <td [align]="'right'">
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; width: 28px;"
+            type="button" class="btn btn-outline-secondary btn-sm" (click)="remove(book)">-</button>
 
-        <span class="price-text">{{book.count}}</span>
+          <span class="price-text">{{book.count}}</span>
 
-        <button type="button" class="count-btn" (click)="add(book)">+</button>
-      </td>
-      <td [align]="'right'">{{ book.count * getBookById(book?.id)?.price | currency }}</td>
-    </tr>
-    <tr [align]="'right'">
-      <td [colSpan]="4">
-        Total: <b>{{ getTotalCount() }}</b>
-      </td>
-      <td [colSpan]="1">
-        Total Price: <b>{{ getTotalPrice() | currency }}</b>
-      </td>
-    </tr>
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; width: 28px;"
+            type="button" class="btn btn-outline-secondary btn-sm" (click)="add(book)">+</button>
+        </td>
+        <td [align]="'right'">{{ book.count * getBookById(book?.id)?.price | currency }}</td>
+      </tr>
+      <tr [align]="'right'">
+        <td [colSpan]="4">
+          Total: <b>{{ getTotalCount() }}</b>
+        </td>
+        <td [colSpan]="1">
+          Total Price: <b>{{ getTotalPrice() | currency }}</b>
+        </td>
+      </tr>
+    </tbody>
   </table>
   <div *ngIf="getCart().length == 0">No books in your cart</div>
   <!-- <div class="action-container" *ngIf="getCart().length > 0">

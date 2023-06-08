@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~angular-notifier/styles";
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 button:disabled,
 button[disabled] {

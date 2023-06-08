@@ -1,28 +1,69 @@
-<nav class="flex justify-between p-4 bg-purple-900 text-white">
-  <div>
-    <a routerLink="/">Book Shop</a>
-  </div>
-  <div>
-    <a class="mx-4" *ngIf="this.getUserInfo()?.email">
-      Hi {{getUserName()}}!
-    </a>
-    <a class="mx-4" routerLink="/cart" routerLinkActive="active-link">
-      My Cart
-      <ng-container *ngIf="getCount() != 0">
-        ({{ getCount() }})
-      </ng-container>
-    </a>
-    <a class="mx-4" routerLink="/book/create" routerLinkActive="active-link">Books</a>
-    <ng-container *ngIf="!isAuth()">
-      <a class="mx-4" routerLink="/login" routerLinkActive="active-link">Login</a>
-      <a class="mx-4" routerLink="/register" routerLinkActive="active-link">Register</a>
-    </ng-container>
-    <ng-container *ngIf="isAuth()">
-      <button (click)="logout()" class="mx-4">Logout</button>
-    </ng-container>
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Bookstore</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/" routerLinkActive="active">Home</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav d-flex">
+        <li class="nav-item">
+          <a class="nav-link" [class.disabled]="!isAuth()" routerLink="/cart" routerLinkActive="active">
+            <button type="button" class="btn btn-outline-primary position-relative btn-sm rounded-5"
+              [class.disabled]="!isAuth()" routerLinkActive="active">
+              Cart
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <ng-container *ngIf="getCount() != 0">
+                  {{ getCount() }}
+                  <span class="visually-hidden">unread messages</span>
+                </ng-container>
+              </span>
+            </button>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ getUserName() || 'User' | titlecase }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-lg-end">
+            <li>
+              <a class="dropdown-item" [class.disabled]="!isAuth()" routerLink="/book/create"
+                routerLinkActive="active">Book Management</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <ng-container *ngIf="!isAuth()">
+              <li><a class="dropdown-item" routerLink="/login" routerLinkActive="active">Login</a></li>
+              <li><a class="dropdown-item" routerLink="/register" routerLinkActive="active">Register</a></li>
+            </ng-container>
+            <ng-container *ngIf="isAuth()">
+              <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+            </ng-container>
+          </ul>
+        </li>
+      </ul>
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+    </div>
   </div>
 </nav>
-<div class="p-4">
+
+<div *ngIf="isLoading()" class="modal-backdrop fade show spinner-backdrop">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="mx-auto p-4">
   <router-outlet></router-outlet>
 </div>
+
 <notifier-container></notifier-container>

@@ -17,6 +17,8 @@ export class CreateBookComponent implements OnInit {
     price: 0,
   };
   editModel: boolean = false;
+  deleteItem: any;
+  isForm: boolean = false;
 
   constructor(private booksService: BooksService) { }
 
@@ -27,6 +29,9 @@ export class CreateBookComponent implements OnInit {
   }
 
   submit(myForm: NgForm) {
+    if (myForm.form.invalid) {
+      return;
+    }
     if (this.editModel) {
       this.booksService.updateBook(this.form, () => {
         this.reset(myForm);
@@ -41,11 +46,20 @@ export class CreateBookComponent implements OnInit {
   reset(myForm: NgForm) {
     myForm.reset();
     this.editModel = false;
+    this.setForm(false);
   }
 
-  deleteById(key: string, book: Book) {
-    if(confirm(`Are you sure to delete ${book?.name}?`)) {
-      this.booksService.deleteById(key);
+  setDeleteItem(key: string, book: Book) {
+    this.deleteItem = {
+      ...book,
+      id: key
+    }
+  }
+
+  deleteById() {
+    if(this.deleteItem?.id) {
+      this.booksService.deleteById(this.deleteItem?.id);
+      this.deleteItem = null;
     }
   }
 
@@ -58,5 +72,13 @@ export class CreateBookComponent implements OnInit {
 
   isLoading() {
     return this.booksService.isLoading;
+  }
+
+  setForm(value: boolean) {
+    this.isForm = value;
+  }
+
+  getForm() {
+    return this.isForm || this.editModel;
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { RegisterForm } from 'src/app/types/Auth';
 import { AuthService } from '../auth.service';
 
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  submit() {
+  submit(myForm: NgForm) {
     this.authService.register(this.form);
   }
 

@@ -1,12 +1,18 @@
-<li class="flex border rounded-xl h-60">
-  <img [src]="book.image" [alt]="book.name" width="100" class="m-auto rounded-sm" />
-  <div class="m-auto">
-    <b class="text-lg">{{ book.name | titlecase }}</b> <br />
-    <i class="text-lg">by {{ book.author |
-      titlecase}}</i>
-    <p class="my-4">{{ book.price | currency }}</p>
-    <button class="bg-yellow-400 rounded p-3" *ngIf="!isInCart()" (click)="addToCart()">Add to Cart</button>
-    <button class="bg-yellow-400 rounded p-3" *ngIf="isInCart()" (click)="removeFromCart()">Remove from
-      Cart</button>
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" [src]="book.image" [alt]="book.name" width="100" height="200">
+  <div class="card-body">
+    <h5 class="card-title text-truncate" [title]="book.name | titlecase">
+      {{ book.name | titlecase }}
+    </h5>
+    <p class="card-text text-truncate">
+      by {{ book.author | titlecase}}
+    </p>
+    <h5 class="card-title">
+      {{ book.price | currency }}
+    </h5>
+    <div>
+      <a class="btn btn-primary" *ngIf="!isInCart()" (click)="addToCart()">Add To Cart</a>
+      <a class="btn btn-primary" *ngIf="isInCart()" (click)="removeFromCart()">Remove From Cart</a>
+    </div>
   </div>
-</li>
+</div>

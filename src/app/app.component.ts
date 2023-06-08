@@ -43,4 +43,8 @@ export class AppComponent implements OnInit {
   getCount() {
     return this.cartService.getTotalCount();
   }
+
+  isLoading() {
+    return this.booksService.isLoading;
+  }
 }

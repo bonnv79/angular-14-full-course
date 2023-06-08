@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { LoginForm } from 'src/app/types/Auth';
 import { AuthService } from '../auth.service';
 @Component({
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  submit(myForm: any) {
+  submit(myForm: NgForm) {
     this.authService.login(this.form);
   }
 
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     return this.authService.isLoading;
   }
 
-  createUser(myForm: any) {
+  createUser(myForm: NgForm) {
     if (this.editModel) {
       this.save();
     } else {

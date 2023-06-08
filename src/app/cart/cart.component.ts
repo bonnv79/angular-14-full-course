@@ -37,8 +37,4 @@ export class CartComponent implements OnInit {
   getBookById(id: string) {
     return this.booksService.getStateBookById(id);
   }
-
-  isLoading() {
-    return this.booksService.isLoading;
-  }
 }

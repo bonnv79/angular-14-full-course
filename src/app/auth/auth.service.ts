@@ -158,7 +158,7 @@ export class AuthService {
 
         // this.isAuthenticated = true;
         this.router.navigate(['']);
-        this.notifier.notify(NotifyType.SUCCESS, 'Login successfully');
+        // this.notifier.notify(NotifyType.SUCCESS, 'Login successfully');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -191,7 +191,7 @@ export class AuthService {
 
         // this.isAuthenticated = true;
         this.router.navigate(['']);
-        this.notifier.notify(NotifyType.SUCCESS, 'Login successfully');
+        // this.notifier.notify(NotifyType.SUCCESS, 'Register successfully');
       })
       .catch((error) => {
         // this.isAuthenticated = false;

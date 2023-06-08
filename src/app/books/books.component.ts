@@ -15,8 +15,4 @@ export class BooksComponent implements OnInit {
   getBooks() {
     return this.booksService.getStateBooks();
   }
-
-  isLoading() {
-    return this.booksService.isLoading;
-  }
 }

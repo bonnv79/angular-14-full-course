@@ -1,12 +1,12 @@
-<h2>Programming Books List!</h2>
+<span class="fs-3">Programming Books List!</span>
 
-<ul class="flex flex-wrap justify-center">
-  <ng-container *ngFor="let singleBook of getBooks(); let i=index">
-    <app-book [book]="singleBook" class="w-1/2 p-5 text-center">
-    </app-book>
-  </ng-container>
-</ul>
-
-<div *ngIf="isLoading()">
-  Loading...
+<div class="container text-center">
+  <div class="row row-cols-1 g-1 row-cols-md-2 g-md-2 row-cols-lg-3 g-lg-3">
+    <div class="col" *ngFor="let singleBook of getBooks(); let i=index">
+      <div class="p-3 d-flex justify-content-center">
+        <app-book [book]="singleBook">
+        </app-book>
+      </div>
+    </div>
+  </div>
 </div>
