@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
-import { getDatabase, ref, set, onValue, child, get, push, update, remove } from "firebase/database";
+import { getDatabase, ref, set, onValue, child, get, push, update, remove, orderByChild, query, equalTo, startAt, endAt, startAfter, endBefore, limitToFirst } from "firebase/database";
+import { toLower } from 'lodash';
 import { AuthService } from '../auth/auth.service';
 import { CartService } from '../cart/cart.service';
 import { Book } from '../types/Book';
@@ -17,6 +18,8 @@ export class BooksService {
   private readonly notifier: NotifierService;
   private books: any = {};
   private arrayBooks: any = [];
+  private filterArrayBooks: any = [];
+  private searchKey: string = '';
 
   constructor(
     private router: Router,
@@ -25,6 +28,19 @@ export class BooksService {
     private cartService: CartService
   ) {
     this.notifier = notifierService;
+  }
+
+  setSearchKey(value: string) {
+    if (this.router?.routerState?.snapshot?.url !== '/') {
+      this.router.navigate(['/']);
+    }
+    this.searchKey = value;
+    this.filterStateBooks();
+     // this.filterBooks(); // todo
+  }
+
+  getSearchKey() {
+    return this.searchKey;
   }
 
   getStateBooks(isObject?: boolean) {
@@ -42,6 +58,50 @@ export class BooksService {
     return Object.keys(data).map(key => ({ ...data[key], id: key }));
   }
 
+  filterStateBooks() {
+    const key = toLower(this.searchKey);
+    let data = this.arrayBooks;
+
+    if (key) {
+      data = this.arrayBooks?.filter((item: any) => {
+        const matchName = toLower(item?.name)?.includes(key);
+        return matchName;
+      });
+    }
+    console.log('get filter data');
+    this.filterArrayBooks = data;
+    // return data;
+  }
+
+  getFilterArrayBooks() {
+    return this.searchKey ? this.filterArrayBooks : this.arrayBooks;
+  }
+
+  filterBooks() {
+    const searchKey = toLower(this.searchKey).trim();
+    const db = getDatabase();
+
+    const mostViewedPosts = query(
+      ref(db, `${TABLE_NAME}/`),
+      orderByChild('name'),
+      // equalTo(searchKey),
+      startAt(searchKey),
+      endAt(searchKey + "\uf8ff"),
+      // startAfter(searchKey),
+      // endBefore(searchKey + "\uf8ff"),
+      // limitToFirst(20),
+
+      // startAt("[a-zA-Z0-9]*"),
+      // endAt(searchKey + "\uf8ff"),
+    );
+
+    onValue(mostViewedPosts, (snapshot) => {
+      let data = snapshot.val();
+      console.log('123', searchKey, data);
+      this.filterArrayBooks = data ? this.parseData(data) : [];
+    });
+  }
+
   getBooks(callback?: Function) {
     this.isLoading = true;
     const db = getDatabase();
@@ -52,7 +112,7 @@ export class BooksService {
       if (data) {
         this.books = data;
         this.arrayBooks = this.parseData(data);
-  
+
         if (callback) {
           callback(data);
         }

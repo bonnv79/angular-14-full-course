@@ -44,8 +44,7 @@
       <div class="row gx-3">
         <div class="col">
           <div class="p-0">
-            <button type="submit" class="btn btn-primary w-100"
-              [class.disabled]="myForm.form.invalid || isLoading()">
+            <button type="submit" class="btn btn-primary w-100" [class.disabled]="myForm.form.invalid || isLoading()">
               <ng-container *ngIf="!editModel">
                 Create
               </ng-container>
@@ -80,40 +79,43 @@
     </div>
   </div>
   <!-- <div>{{ getBooks() | json }}</div> -->
-  <table class="table" [cellPadding]="8" [ngClass]="{'disabled-table': isLoading() }">
-    <thead>
-      <tr>
-        <!-- <td>Id</td> -->
-        <td>Name</td>
-        <td>Author</td>
-        <td>Image</td>
-        <td class="text-end">Price</td>
-        <td class="text-center">Action</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of getBooks()">
-        <!-- <td>{{ item?.id }}</td> -->
-        <td>{{ item?.name | titlecase }}</td>
-        <td>{{ item?.author | titlecase }}</td>
-        <td>{{ item?.image }}</td>
-        <td class="text-end">{{ item?.price | currency }}</td>
-        <td class="text-center">
-          <button class="btn btn-outline-danger btn-sm me-2" type="button" (click)="setDeleteItem(item?.id, item)"
-            data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+  <div class="table-responsive mt-3" style="max-height: calc(100vh - 200px);">
+    <table class="table" [cellPadding]="8" [ngClass]="{'disabled-table': isLoading() }">
+      <thead>
+        <tr>
+          <!-- <td>Id</td> -->
+          <td>Name</td>
+          <td>Author</td>
+          <td>Image</td>
+          <td class="text-end">Price</td>
+          <td class="text-center">Action</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of getBooks()">
+          <!-- <td>{{ item?.id }}</td> -->
+          <td>{{ item?.name }}</td>
+          <td>{{ item?.author }}</td>
+          <td>{{ item?.image }}</td>
+          <td class="text-end">{{ item?.price | currency }}</td>
+          <td class="text-center">
+            <button class="btn btn-outline-danger btn-sm me-2" type="button" (click)="setDeleteItem(item?.id, item)"
+              data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
 
-          <button class="btn btn-outline-primary btn-sm me-2" type="button"
-            (click)="setEditForm(item?.id)">Edit</button>
-        </td>
-      </tr>
-      <tr *ngIf="isLoading()">
-        <td [colSpan]="5" [align]="'center'">Loading...</td>
-      </tr>
-      <tr *ngIf="!isLoading() && getBooks()?.length === 0">
-        <td [colSpan]="5" [align]="'center'">Found not data</td>
-      </tr>
-    </tbody>
-  </table>
+            <button class="btn btn-outline-primary btn-sm me-2" type="button"
+              (click)="setEditForm(item?.id)">Edit</button>
+          </td>
+        </tr>
+        <tr *ngIf="isLoading()">
+          <td [colSpan]="5" [align]="'center'">Loading...</td>
+        </tr>
+        <tr *ngIf="!isLoading() && getBooks()?.length === 0">
+          <td [colSpan]="5" [align]="'center'">Found not data</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 
 <!-- Modal -->

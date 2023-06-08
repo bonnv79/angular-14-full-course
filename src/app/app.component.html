@@ -11,6 +11,18 @@
           <a class="nav-link active" aria-current="page" routerLink="/" routerLinkActive="active">Home</a>
         </li>
       </ul>
+
+      <div class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [value]="searchKey"
+          (change)="changeSearchKey($event)">
+      </div>
+
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" [value]="searchKey"
+          (change)="changeSearchKey">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+
       <ul class="navbar-nav d-flex">
         <li class="nav-item">
           <a class="nav-link" [class.disabled]="!isAuth()" routerLink="/cart" routerLinkActive="active">
@@ -48,10 +60,6 @@
           </ul>
         </li>
       </ul>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../types/Book';
+// import { Book } from '../types/Book';
 import { BooksService } from './books.service';
 
 @Component({
@@ -13,6 +13,12 @@ export class BooksComponent implements OnInit {
   ngOnInit(): void { }
 
   getBooks() {
-    return this.booksService.getStateBooks();
+    // return this.booksService.getStateBooks();
+    // return this.booksService.filterStateBooks();
+    return this.booksService.getFilterArrayBooks();
+  }
+
+  getSearchKey() {
+    return this.booksService.getSearchKey();
   }
 }

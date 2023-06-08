@@ -1,4 +1,7 @@
 <span class="fs-3">Programming Books List!</span>
+<div *ngIf="getSearchKey()">
+  <span class="fs-5">Found {{ getBooks()?.length }} result{{ getBooks()?.length | checkmumbermany:'s' }}: {{ getSearchKey() }}</span>
+</div>
 
 <div class="container text-center">
   <div class="row row-cols-1 g-1 row-cols-md-2 g-md-2 row-cols-lg-3 g-lg-3">

@@ -10,6 +10,7 @@ import { firebaseConfig } from './firebase.config';
   styleUrls: ['app.component.css'],
 })
 export class AppComponent implements OnInit {
+  searchKey: string = '';
   constructor(private authService: AuthService, private cartService: CartService, private booksService: BooksService) {
     this.authService.clearCache();
   }
@@ -46,5 +47,10 @@ export class AppComponent implements OnInit {
 
   isLoading() {
     return this.booksService.isLoading;
+  }
+
+  changeSearchKey(event: any) {
+    this.searchKey = event.target.value;
+    this.booksService.setSearchKey(this.searchKey);
   }
 }
