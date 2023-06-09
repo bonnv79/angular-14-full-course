@@ -92,4 +92,17 @@ export class CartService {
   checkInCart(id: string) {
     return this.cart[id];
   }
+
+  freshCart(newBooks: any) {
+    const values = Object.values(this.cart) || [];
+    const newCart: any = {};
+    values?.forEach((item: any) => {
+      const book = newBooks[item.id];
+      if (book) {
+        newCart[item?.id] = item;
+      }
+    });
+    this.cart = newCart;
+    this.setCache();
+  }
 }

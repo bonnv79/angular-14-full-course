@@ -36,7 +36,7 @@ export class BooksService {
     }
     this.searchKey = value;
     this.filterStateBooks();
-     // this.filterBooks(); // todo
+    // this.filterBooks(); // todo
   }
 
   getSearchKey() {
@@ -48,6 +48,10 @@ export class BooksService {
   }
 
   getStateBookById(id: string) {
+    const book = this.getStateBooks(true)?.[id];
+    if (!book) {
+      return null;
+    }
     return {
       ...this.getStateBooks(true)?.[id],
       id
@@ -116,9 +120,10 @@ export class BooksService {
         if (callback) {
           callback(data);
         }
+        this.cartService.freshCart(data);
+        console.log(data);
       }
       this.isLoading = false;
-      console.log(data);
     });
   }
 
@@ -201,7 +206,6 @@ export class BooksService {
 
     remove(child(dbRef, `${TABLE_NAME}/${id}`)).then((res) => {
       this.notifier.notify(NotifyType.SUCCESS, 'Delete successfully');
-      this.cartService.delete(id);
     }).catch((error) => {
       this.notifier.notify(NotifyType.ERROR, error.message);
     }).finally(() => (this.isLoading = false));
