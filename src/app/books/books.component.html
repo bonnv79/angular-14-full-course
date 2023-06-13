@@ -1,6 +1,6 @@
-<span class="fs-3">Programming Books List!</span>
 <div *ngIf="getSearchKey()">
-  <span class="fs-5">Found {{ getBooks()?.length }} result{{ getBooks()?.length | checkmumbermany:'s' }}: {{ getSearchKey() }}</span>
+  <span class="fs-5">Found {{ getBooks()?.length }} result{{ getBooks()?.length | checkmumbermany:'s' }}: {{
+    getSearchKey() }}</span>
 </div>
 
 <div class="container text-center">
@@ -12,4 +12,12 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="getBooks()?.length === 0 && !isLoading()" class="fs-5 text-center p-3">
+  Data Not Found
+</div>
+
+<div *ngIf="isLoading()" class="fs-5 text-center p-3">
+  Loading...
 </div>

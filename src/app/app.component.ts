@@ -4,6 +4,7 @@ import { AuthService } from './auth/auth.service';
 import { BooksService } from './books/books.service';
 import { CartService } from './cart/cart.service';
 import { firebaseConfig } from './firebase.config';
+import { VERSION } from './constants';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -11,7 +12,7 @@ import { firebaseConfig } from './firebase.config';
 })
 export class AppComponent implements OnInit {
   searchKey: string = '';
-  version: string = 'v1.1.2';
+  version: string = VERSION;
   constructor(private authService: AuthService, private cartService: CartService, private booksService: BooksService) {
     this.authService.clearCache();
   }
