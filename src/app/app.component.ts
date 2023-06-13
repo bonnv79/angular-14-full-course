@@ -11,7 +11,7 @@ import { firebaseConfig } from './firebase.config';
 })
 export class AppComponent implements OnInit {
   searchKey: string = '';
-  version: string = 'v1.1.1';
+  version: string = 'v1.1.2';
   constructor(private authService: AuthService, private cartService: CartService, private booksService: BooksService) {
     this.authService.clearCache();
   }
