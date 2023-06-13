@@ -7,6 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { CartService } from '../cart/cart.service';
 import { Book } from '../types/Book';
 import { NotifyType } from '../types/Notify';
+import { delay } from '../utils';
 
 const TABLE_NAME = 'books';
 
@@ -136,7 +137,7 @@ export class BooksService {
         const data = snapshot.val();
         if (data && callback) {
           callback(data);
-          this.notifier.notify(NotifyType.SUCCESS, 'Geted successfully');
+          // this.notifier.notify(NotifyType.SUCCESS, 'Geted successfully');
         }
       } else {
         this.notifier.notify(NotifyType.ERROR, 'No data available');
@@ -146,10 +147,10 @@ export class BooksService {
     }).finally(() => this.isLoading = false);
   }
 
-  createBook(form: Book, callback: Function) {
+  async createBook(form: Book, callback: Function) {
     if (this.isLoading) return;
-
     this.isLoading = true;
+    await delay(500);
 
     const db = getDatabase();
     const newKey = push(child(ref(db), TABLE_NAME)).key || Date.now();
@@ -167,7 +168,9 @@ export class BooksService {
       })
       .catch((error) => {
         this.notifier.notify(NotifyType.ERROR, error.message);
-      }).finally(() => (this.isLoading = false));
+      }).finally(() => {
+        this.isLoading = false;
+      });
   }
 
   updateBook(form: Book, callback: Function) {

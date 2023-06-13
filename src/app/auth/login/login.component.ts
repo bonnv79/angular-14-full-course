@@ -31,6 +31,9 @@ export class LoginComponent implements OnInit {
   }
 
   submit(myForm: NgForm) {
+    if (myForm.form.invalid) {
+      return;
+    }
     this.authService.login(this.form);
   }
 

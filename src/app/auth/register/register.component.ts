@@ -20,6 +20,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void { }
 
   submit(myForm: NgForm) {
+    if (myForm.form.invalid) {
+      return;
+    }
     this.authService.register(this.form);
   }
 

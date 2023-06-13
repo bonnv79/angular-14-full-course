@@ -58,7 +58,7 @@
               <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
             </ng-container>
             <li>
-              <a class="dropdown-item disabled">v1.0.10</a>
+              <a class="dropdown-item disabled">{{ version }}</a>
             </li>
           </ul>
         </li>
@@ -67,11 +67,7 @@
   </div>
 </nav>
 
-<div *ngIf="isLoading()" class="modal-backdrop fade show spinner-backdrop">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+<app-is-loading [loading]="isLoading()"></app-is-loading>
 
 <div class="mx-auto p-4">
   <router-outlet></router-outlet>
