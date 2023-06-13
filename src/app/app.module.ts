@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { BooksModule } from './books/books.module';
 import { CartComponent } from './cart/cart.component';
+import { IsLoadingComponent } from './components/is-loading/is-loading.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -50,7 +51,7 @@ const customNotifierOptions: NotifierOptions = {
 };
 
 @NgModule({
-  declarations: [AppComponent, CartComponent],
+  declarations: [AppComponent, CartComponent, IsLoadingComponent],
   imports: [
     BrowserModule,
     BooksModule,
