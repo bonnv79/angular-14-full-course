@@ -8,6 +8,7 @@ import { CartService } from '../cart/cart.service';
 import { Book } from '../types/Book';
 import { NotifyType } from '../types/Notify';
 import { delay } from '../utils';
+import { TIME_OUT } from '../constants';
 
 const TABLE_NAME = 'books';
 
@@ -16,6 +17,7 @@ const TABLE_NAME = 'books';
 })
 export class BooksService {
   isLoading: boolean = false;
+  timeout: any = null;
   private readonly notifier: NotifierService;
   private books: any = {};
   private arrayBooks: any = [];
@@ -73,7 +75,6 @@ export class BooksService {
         return matchName;
       });
     }
-    console.log('get filter data');
     this.filterArrayBooks = data;
     // return data;
   }
@@ -108,9 +109,17 @@ export class BooksService {
   }
 
   getBooks(callback?: Function) {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    this.timeout = setTimeout(() => {
+      this.cartService.freshCart({});
+      this.isLoading = false;
+    }, TIME_OUT);
+
     this.isLoading = true;
     const db = getDatabase();
-    const starCountRef = ref(db, `${TABLE_NAME}/`);
+    const starCountRef: any = ref(db, `${TABLE_NAME}/`);
 
     onValue(starCountRef, (snapshot) => {
       let data = snapshot.val();
@@ -121,6 +130,11 @@ export class BooksService {
         if (callback) {
           callback(data);
         }
+
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+
         this.cartService.freshCart(data);
         console.log(data);
       }

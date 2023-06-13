@@ -21,4 +21,8 @@ export class BooksComponent implements OnInit {
   getSearchKey() {
     return this.booksService.getSearchKey();
   }
+
+  isLoading() {
+    return this.booksService.isLoading;
+  }
 }
