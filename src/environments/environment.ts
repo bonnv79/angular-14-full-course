@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   // apiUrl: 'http://my-api-url',
-  version: 'v1.1.0'
 };
 
 /*
